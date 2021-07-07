@@ -88,7 +88,7 @@ function getWeatherHandler(req, res) {
 
     let cityName = req.query.cityName;
 
-    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.Weather_Key}&city=${cityName}&days=5`;
+    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_KEY}&city=${cityName}&days=5`;
 
     axios
         .get(url)
@@ -112,40 +112,38 @@ class Forecast {
     }
 }
 
-server.listen(PORT, () => {
-    console.log(`Listening on PORT ${PORT}`);
-})
 
 
 
 //=============================>Movies server<====================================
 
 
-// localhost:3001/getMovies?query=Amman
+// http://localhost:3001/getMovies?movieName=Amman
 server.get('/getMovies', getMoviesHandler);
 
 function getMoviesHandler(req, res) {
 
-    let moviesName = req.query.moviesName;
+    let movieName = req.query.moviesName;
 
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.api_key}&query=${moviesName}`;
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIES_KEY}&query=${movieName}`;
 
     axios
         .get(url)
         .then(moviesData => {
-            console.log(moviesData);
-            let moviesInfo = moviesData.data.results.map(movie => {
-                return new Movies(movie.title, movie.poster_path, movie.original_language, movie.vote_average, movie.overview, movie.vote_count, movie.popularity, movie.release_date);
+            // console.log(moviesData);
+
+            let moviesInfo = moviesData.data.results.map(item => {
+                return new Movie(item.title, item.poster_path, item.original_language, item.vote_average, item.overview, item.vote_count, item.popularity, item.release_date);
             });
-            console.log(moviesInfo);
+            // console.log('first', moviesInfo);
 
             res.status(200).send(moviesInfo);
         }).catch(err => {
-            res.status(500).send('Server Error 500');
+            res.status(500).send(`Server Error 500 ${err}`);
         })
 }
 
-class Movies {
+class Movie {
     constructor(title, poster_path, original_language, vote_average, overview, vote_count, popularity, release_date) {
         this.title = title;
         this.poster_path = `https://image.tmdb.org/t/p/w500/${poster_path}`;
@@ -154,8 +152,15 @@ class Movies {
         this.overview = overview;
         this.vote_count = vote_count;
         this.popularity = popularity;
-        this.release_date = release_date;   
-     }
+        this.release_date = release_date;
+    }
 }
+
+
+server.listen(PORT, () => {
+    console.log(`Listening on PORT ${PORT}`);
+})
+
+
 
 
