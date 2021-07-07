@@ -123,7 +123,7 @@ server.get('/getMovies', getMoviesHandler);
 
 function getMoviesHandler(req, res) {
 
-    let movieName = req.query.moviesName;
+    let movieName = req.query.movieName;
 
     let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIES_KEY}&query=${movieName}`;
 
