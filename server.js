@@ -130,12 +130,12 @@ function getMoviesHandler(req, res) {
     axios
         .get(url)
         .then(moviesData => {
-            // console.log(moviesData);
+            console.log(moviesData);
 
             let moviesInfo = moviesData.data.results.map(item => {
                 return new Movie(item.title, item.poster_path, item.original_language, item.vote_average, item.overview, item.vote_count, item.popularity, item.release_date);
             });
-            // console.log('first', moviesInfo);
+            console.log('first', moviesInfo);
 
             res.status(200).send(moviesInfo);
         }).catch(err => {
