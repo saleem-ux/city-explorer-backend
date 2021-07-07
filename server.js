@@ -88,7 +88,7 @@ function getWeatherHandler(req, res) {
 
     let cityName = req.query.cityName;
 
-    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.Weather_Key}&city=${cityName}&days=5`;
+    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_KEY }&city=${cityName}&days=5`;
 
     axios
         .get(url)
@@ -128,7 +128,7 @@ function getMoviesHandler(req, res) {
 
     let moviesName = req.query.moviesName;
 
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.api_key}&query=${moviesName}`;
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&query=${moviesName}`;
 
     axios
         .get(url)
