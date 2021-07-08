@@ -73,6 +73,10 @@ const axios = require('axios');
 
 //  Routes
 server.get('/test', testHandler);
+// localhost:3001/
+server.get('/', (req, res) => {
+    res.status(200).send('home route')
+})
 
 // Function Handlers
 function testHandler(req, res) {
