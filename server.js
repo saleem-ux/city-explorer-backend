@@ -71,6 +71,10 @@ const PORT = process.env.PORT;
 
 const axios = require('axios');
 
+const getWeatherHandler = require('./modules/Weather');
+
+const getMoviesHandler = require('./modules/Movies');
+
 //  Routes
 server.get('/test', testHandler);
 // localhost:3001/
@@ -88,33 +92,7 @@ function testHandler(req, res) {
 // localhost:3001/getWeather?cityName=Amman
 server.get('/getWeather', getWeatherHandler);
 
-function getWeatherHandler(req, res) {
 
-    let cityName = req.query.cityName;
-
-    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_KEY}&city=${cityName}&days=5`;
-
-    axios
-        .get(url)
-        .then(weatherData => {
-            console.log(weatherData);
-            let weatherInfo = weatherData.data.data.map(item => {
-                return new Forecast(item);
-            });
-            console.log(weatherInfo);
-
-            res.status(200).send(weatherInfo);
-        }).catch(err => {
-            res.status(500).send('Server Error 500');
-        })
-}
-
-class Forecast {
-    constructor(forecast) {
-        this.valid_date = forecast.valid_date;
-        this.description = forecast.weather.description;
-    }
-}
 
 
 
@@ -125,40 +103,6 @@ class Forecast {
 // http://localhost:3001/getMovies?movieName=Amman
 server.get('/getMovies', getMoviesHandler);
 
-function getMoviesHandler(req, res) {
-
-    let movieName = req.query.movieName;
-
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIES_KEY}&query=${movieName}`;
-
-    axios
-        .get(url)
-        .then(moviesData => {
-            console.log(moviesData);
-
-            let moviesInfo = moviesData.data.results.map(item => {
-                return new Movie(item.title, item.poster_path, item.original_language, item.vote_average, item.overview, item.vote_count, item.popularity, item.release_date);
-            });
-            console.log('first', moviesInfo);
-
-            res.status(200).send(moviesInfo);
-        }).catch(err => {
-            res.status(500).send(`Server Error 500 ${err}`);
-        })
-}
-
-class Movie {
-    constructor(title, poster_path, original_language, vote_average, overview, vote_count, popularity, release_date) {
-        this.title = title;
-        this.poster_path = `https://image.tmdb.org/t/p/w500/${poster_path}`;
-        this.original_language = original_language;
-        this.vote_average = vote_average;
-        this.overview = overview;
-        this.vote_count = vote_count;
-        this.popularity = popularity;
-        this.release_date = release_date;
-    }
-}
 
 
 server.listen(PORT, () => {
