@@ -189,6 +189,7 @@ const getWeatherHandler = require('./modules/Weather');
 
 const getMoviesHandler = require('./modules/Movies');
 
+const getRestaurantsHandler = require('./modules/Restaurant');
 //  Routes
 server.get('/test', testHandler);
 // localhost:3001/
@@ -216,6 +217,13 @@ server.get('/getWeather', getWeatherHandler);
 
 // http://localhost:3001/getMovies?movieName=Amman
 server.get('/getMovies', getMoviesHandler);
+
+
+//=============================>Restaurant server<====================================
+
+
+// localhost:3001/restaurants?restaurantsName=Seattle
+server.get('/restaurants', getRestaurantsHandler);
 
 
 
