@@ -215,8 +215,8 @@ server.get('/getWeather', getWeatherHandler);
 //=============================>Movies server<====================================
 
 
-// http://localhost:3001/getMovies?movieName=Amman
-server.get('/getMovies', getMoviesHandler);
+// http://localhost:3001/movie?movieName=Amman
+server.get('/movie', getMoviesHandler);
 
 
 //=============================>Restaurant server<====================================
