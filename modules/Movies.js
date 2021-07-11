@@ -4,6 +4,9 @@ const axios = require('axios');
 
 module.exports = getMoviesHandler;
 
+let inMemory = {};
+
+
 function getMoviesHandler(req, res) {
 
     let movieName = req.query.movieName;
